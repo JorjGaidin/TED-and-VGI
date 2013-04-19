@@ -1,0 +1,22 @@
+#!/bin/bash -login
+#PBS -l nodes=1,mem=1GB,walltime=2:00:00
+#PBS -t 2-100
+#PBS -j oe
+
+curl https://prowlapp.com/publicapi/add -F apikey=2daeeaf780b2e94281d1089752c6698da81434a9 -F application="HPCC" -F description="sim 1 job $PBS_ARRAYID has started"
+
+
+module load GRASS
+module load GDAL
+module load PROJ.4
+
+cd /mnt/scratch/langleys/grassdata/Kenya2/expSim1_$PBS_ARRAYID
+rm .gislock
+
+cd $PBS_O_WORKDIR
+
+grass64 /mnt/scratch/langleys/grassdata/Kenya2/expSim1_$PBS_ARRAYID < expSim1_$PBS_ARRAYID.sh
+
+qstat -f ${PBS_JOBID}
+
+curl https://prowlapp.com/publicapi/add -F apikey=2daeeaf780b2e94281d1089752c6698da81434a9 -F application="HPCC" -F description="sim 1 job $PBS_ARRAYID has ended"

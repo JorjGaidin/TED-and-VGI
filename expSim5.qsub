@@ -1,0 +1,20 @@
+#!/bin/bash -login
+#PBS -l nodes=1,mem=1GB,walltime=4:00:00
+#PBS -t 1-100
+#PBS -j oe
+
+
+
+module load GRASS
+module load GDAL
+module load PROJ.4
+
+cd /mnt/scratch/langleys/grassdata/Kenya2/expSim5_$PBS_ARRAYID
+rm .gislock
+
+cd $PBS_O_WORKDIR
+
+grass64 /mnt/scratch/langleys/grassdata/Kenya2/expSim5_$PBS_ARRAYID < expSim5_$PBS_ARRAYID.sh
+
+qstat -f ${PBS_JOBID}
+

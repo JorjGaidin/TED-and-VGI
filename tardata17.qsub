@@ -1,0 +1,13 @@
+#!/bin/bash -login
+#PBS -l nodes=1,mem=1GB,walltime=24:00:00
+#PBS -j oe
+
+location=expSim17
+
+cd /mnt/scratch/langleys/grassdata/Kenya2
+
+tar czvf expSim17.`date +"%m%d%y"`.backup.tar.gz expSim17_*
+
+cp expSim17.`date +"%m%d%y"`.backup.tar.gz /mnt/home/langleys/backups
+
+curl https://prowlapp.com/publicapi/add -F apikey=2daeeaf780b2e94281d1089752c6698da81434a9 -F application="HPCC" -F description="I've finished zipping location files sim17 mapset and copied them to your home directory"

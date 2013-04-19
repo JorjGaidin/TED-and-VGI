@@ -1,0 +1,18 @@
+#!/bin/bash -login
+#PBS -l nodes=1,mem=150mb,walltime=2:00:00
+#PBS -M langleys@msu.edu
+#PBS -m abe
+
+
+
+cd $PBS_O_WORKDIR
+
+module load GRASS
+module load GDAL/1.9.2
+module load PROJ.4
+
+cd $PBS_O_WORKDIR
+
+grass64 /mnt/scratch/langleys/grassdata/kenya/baseSim1 < baseSim1.sh
+
+qstat -f ${PBS_JOBID}

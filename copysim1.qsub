@@ -1,0 +1,16 @@
+#!/bin/bash -login
+#PBS -l nodes=1,mem=1GB,walltime=8:00:00
+#PBS -j oe
+
+
+module load GRASS
+module load GDAL
+module load PROJ.4
+
+cd $PBS_O_WORKDIR
+
+grass64 /mnt/scratch/langleys/grassdata/Kenya2/results < copy_results.sh
+
+qstat -f ${PBS_JOBID}
+
+curl https://prowlapp.com/publicapi/add -F apikey=2daeeaf780b2e94281d1089752c6698da81434a9 -F application="HPCC" -F description="copied all output for sim1"
